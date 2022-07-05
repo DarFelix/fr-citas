@@ -1,37 +1,38 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import '../assets/css/Login.css';
-
-
-
+import {crearAuth} from '../services/AuthService';
 
 
 const Login = () => {
 
+  const [valoresForm, setValoresForm] = useState({});
+  const {username='', password=''} = valoresForm;
   
-  state={
-    form:{
-      "usuario":"",
-      "password":""
-    },
-    error: false,
-    errorMsg:""
-  }
 
-  const manejadorSubmit = (e) =>{
+  const manejadorSubmit = async (e) =>{
     e.preventDefault();
-  }
+    const datos = {username, password};
+    console.log(datos);
+    try{
+      const { data } = await crearAuth(datos);
+      console.log(data);
 
-  manejadorChange = async (e) =>{
-    await this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name] : e.target.value
+    }catch(error){
+      let msj;
+      if(error && error.response && error.response.data && error.response.data.error){
+          msj = error.response.data.error;
+      } else {
+          msj = 'Ocurrio un error, por favor verifique';
       }
-    })
-    console.log(this.state.form);
+    }
   }
 
+  const manejadorChange = ({ target }) => {
+    const {name, value} = target;
+    setValoresForm({...valoresForm, [name]: value});
+  }
 
+ 
   return (
     <>
         <div className="wrapper fadeInDown">
@@ -45,7 +46,7 @@ const Login = () => {
 
                 
                 <form onSubmit={(e) => manejadorSubmit(e)}>
-                <input type="text"  className="fadeIn second" name="usuario" placeholder="Usuario" onChange={manejadorChange}/>
+                <input type="text"  className="fadeIn second" name="username" placeholder="Usuario" onChange={manejadorChange}/>
                 <input type="password"  className="fadeIn third" name="password" placeholder="Contraseña" onChange={manejadorChange}/>
                 <input type="submit" className="fadeIn fourth" value="Ingresar"/>
                 </form>
