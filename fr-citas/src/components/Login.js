@@ -6,15 +6,15 @@ import {crearAuth} from '../services/AuthService';
 const Login = () => {
 
   const [valoresForm, setValoresForm] = useState({});
-  const {username='', password=''} = valoresForm;
+  const {correo='', password=''} = valoresForm;
   
 
   const manejadorSubmit = async (e) =>{
     e.preventDefault();
-    const datos = {username, password};
-    console.log(datos);
+    //const datos = {correo, password};
+    console.log(correo, password);
     try{
-      const { data } = await crearAuth(datos);
+      const { data } = await crearAuth(correo, password);
       console.log(data);
 
     }catch(error){
@@ -46,7 +46,7 @@ const Login = () => {
 
                 
                 <form onSubmit={(e) => manejadorSubmit(e)}>
-                <input type="text"  className="fadeIn second" name="username" placeholder="Usuario" onChange={manejadorChange}/>
+                <input type="text"  className="fadeIn second" name="correo" placeholder="Usuario" onChange={manejadorChange}/>
                 <input type="password"  className="fadeIn third" name="password" placeholder="Contraseña" onChange={manejadorChange}/>
                 <input type="submit" className="fadeIn fourth" value="Ingresar"/>
                 </form>

@@ -1,24 +1,23 @@
 import { axiosInstance } from "../helpers/axios-config";
+import qs from 'qs';
 
-const crearAuth = async (username, password) => {
+const crearAuth = async (correo, password) => {
 
 
-  var basicAuth = 'Basic ' + btoa('servidor-practicas' + ':' + '123456');
+  const BASIC_AUTH = 'c2Vydmlkb3ItcHJhY3RpY2FzOjEyMzQ1Ng==';
 
-    return axiosInstance.post('oauth/token', 
+  const credentials = qs.stringify({username: correo, password, grant_type: 'password'});
+
+    return axiosInstance.post('oauth/token', credentials, 
          {
-            username: username,
-            password: password,
-            grant_type: 'password',
-         }, 
-         {
-          headers: { 
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': + basicAuth }
+          headers: {    
+            'Authorization': `Basic ${BASIC_AUTH}`,
+            'Content-Type': 'application/x-www-form-urlencoded'},
+
         }
          
         ).then((res) => {
-            console.log('Esta es la rta: ', res)
+            console.log('Ingreso exitoso ', res)
         }).catch(err => {
             console.log(err)
         })
@@ -30,3 +29,5 @@ const crearAuth = async (username, password) => {
 export{
    crearAuth
 }
+
+
