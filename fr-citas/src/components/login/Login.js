@@ -1,21 +1,45 @@
 import React, {useState} from 'react'
-import '../assets/css/Login.css';
-import {crearAuth} from '../services/AuthService';
+import '../../assets/css/Login.css';
+import {crearAuth} from '../../services/AuthService';
+import Swal from 'sweetalert2';
 
 
 const Login = () => {
 
   const [valoresForm, setValoresForm] = useState({});
   const {correo='', password=''} = valoresForm;
+
+  const [aviso, setAviso] = useState({});
+  const {error= false, errorMsg= ""} = aviso;
   
 
   const manejadorSubmit = async (e) =>{
     e.preventDefault();
-    //const datos = {correo, password};
+    console.log(correo, password);
+    try{
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Cargando...'
+        });
+        Swal.showLoading();
+        const { data } = await crearAuth(correo, password);
+        localStorage.setItem("token", data.access_token);
+        console.log(data.access_token);
+        Swal.close();
+    }catch(error){
+      setAviso({error: true, errorMsg: error.message});
+      Swal.close();
+    }
+  }
+
+
+  /*
+  const manejadorSubmit = async (e) =>{
+    e.preventDefault();
     console.log(correo, password);
     try{
       const { data } = await crearAuth(correo, password);
-      console.log(data);
+      console.log(data.status);
 
     }catch(error){
       let msj;
@@ -26,6 +50,7 @@ const Login = () => {
       }
     }
   }
+  */
 
   const manejadorChange = ({ target }) => {
     const {name, value} = target;
@@ -51,10 +76,17 @@ const Login = () => {
                 <input type="submit" className="fadeIn fourth" value="Ingresar"/>
                 </form>
 
-               
+                
                 <div id="formFooter">
                 <a className="underlineHover" href="#">Olvidaste la contraseña?</a>
                 </div>
+
+                {
+                error === true &&
+                    <div className="alert alert-danger" role="alert">
+                      {errorMsg}
+                    </div>
+                }
 
             </div>
         </div>
