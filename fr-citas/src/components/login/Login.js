@@ -4,6 +4,8 @@ import {crearAuth} from '../../services/AuthService';
 import Swal from 'sweetalert2';
 
 
+
+
 const Login = () => {
 
   const [valoresForm, setValoresForm] = useState({});
@@ -13,6 +15,7 @@ const Login = () => {
   const {error= false, errorMsg= ""} = aviso;
   
 
+  
   const manejadorSubmit = async (e) =>{
     e.preventDefault();
     console.log(correo, password);
@@ -24,8 +27,10 @@ const Login = () => {
         Swal.showLoading();
         const { data } = await crearAuth(correo, password);
         localStorage.setItem("token", data.access_token);
+        
         console.log(data.access_token);
         Swal.close();
+        window.location.pathname = '/inicio';
     }catch(error){
       setAviso({error: true, errorMsg: error.message});
       Swal.close();
