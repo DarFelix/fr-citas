@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import {InicioView} from './components/inicio/InicioView';
 import {Login} from './components/login/Login';
@@ -6,15 +6,19 @@ import { PrivateRoute } from "./components/routers/PrivateRoute";
 import { PublicRoute } from "./components/routers/PublicRoute";
 
 const init = () => {
-  return localStorage.getItem('token') ? {loggged: true} : {logged: false};
+    return localStorage.getItem('token') ? {loggged: true} : {logged: false};
+  
 }
-
-
 
 const App = () =>{
 
-  const [user, setUser] = useState(init());
-  
+   
+const [user, setUser] = useState(init());
+
+
+
+  console.log(user.logged);
+
   return  <Router>
   <div>
       <Switch>
