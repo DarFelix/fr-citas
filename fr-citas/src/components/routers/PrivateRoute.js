@@ -10,9 +10,6 @@ export const PrivateRoute = ({
 
     localStorage.setItem('lastPath', rest.location.pathname);
 
-    console.log(isAuth);
-
-    
     return (
         <Route {...rest}
             component={(props) => (

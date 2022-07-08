@@ -7,15 +7,12 @@ export const PublicRoute = ({
     component: Component,
     ...rest
 }) => {
-
-    
-
     return (
         <Route {...rest}
             component={(props) => (
                 !isAuth
                     ? <Component {...props} />
-                    : <Redirect to="/" />
+                    : <Redirect to="/inicio" />
 
             )}
         />

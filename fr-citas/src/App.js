@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
-import {InicioView} from './components/inicio/InicioView';
 import {Login} from './components/login/Login';
 import { InicioRoutes } from "./components/routers/InicioRoutes";
 import { PrivateRoute } from "./components/routers/PrivateRoute";
@@ -25,9 +24,9 @@ const [user, setUser] = useState(init());
           />
           <PrivateRoute
               isAuth={user.logged }
-              exact
-              path="/inicio"
-              component={InicioView}
+              //exact
+              //path="/inicio"
+              component={InicioRoutes}
           />
 
           <Redirect to="/" />

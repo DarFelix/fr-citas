@@ -4,7 +4,7 @@ import {crearAuth} from '../../services/AuthService';
 import Swal from 'sweetalert2';
 
 
-
+ 
 
 const Login = () => {
 
@@ -30,7 +30,9 @@ const Login = () => {
         
         console.log(data.access_token);
         Swal.close();
-        window.location.pathname = '/inicio';
+        window.location.pathname = '/inicio'; 
+      
+      
     }catch(error){
       setAviso({error: true, errorMsg: error.message});
       Swal.close();
