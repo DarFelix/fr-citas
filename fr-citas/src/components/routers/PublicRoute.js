@@ -9,7 +9,6 @@ export const PublicRoute = ({
 }) => {
 
     
-    console.log(isAuth);
 
     return (
         <Route {...rest}
