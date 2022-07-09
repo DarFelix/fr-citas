@@ -1,7 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-
+const logout = () => {
+  window.location.href = '/';
+  localStorage.clear();
+}
 
 export const Header = () => {
 
@@ -17,8 +20,8 @@ export const Header = () => {
                 <li className="nav-item">
                   <NavLink className="nav-link " activeClassName = "active" exact aria-current="page" to = "/inicio">Inicio</NavLink>
                 </li>
-                <li className="nav-item">
-                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/usuario">Usuario</NavLink>
+                <li className="nav-item dropdown">
+                 <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/usuario">Usuario</NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/medic">Médicos</NavLink>
@@ -26,9 +29,19 @@ export const Header = () => {
                 <li className="nav-item">
                   <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/admin" >Administradores</NavLink>
                 </li>
-               
-
           </ul> 
+
+            <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
+
+                    <ul className="navbar-nav ml-auto">
+                        <button
+                            className="btn btn-success"
+                            onClick={logout}
+                        >
+                            Salir
+                        </button>
+                    </ul>
+            </div>
     
     </div>
   </div>
