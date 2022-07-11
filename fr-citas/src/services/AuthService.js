@@ -32,9 +32,11 @@ const crearAuth = async (correo, password) => {
             console.log(error)
         })
 
-}
+
 
 */
+
+
 
 export{
    crearAuth

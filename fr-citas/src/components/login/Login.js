@@ -28,7 +28,7 @@ const Login = () => {
         const { data } = await crearAuth(correo, password);
         localStorage.setItem("token", data.access_token);
         
-        console.log(data.access_token);
+        console.log(data);
         Swal.close();
         window.location.pathname = '/inicio'; 
       
