@@ -27,8 +27,9 @@ const Login = () => {
         Swal.showLoading();
         const { data } = await crearAuth(correo, password);
         localStorage.setItem("token", data.access_token);
+        localStorage.setItem("role", data.role);
         
-        console.log(data);
+        console.log(data.role);
         Swal.close();
         window.location.pathname = '/inicio'; 
       

@@ -4,14 +4,36 @@ import {Login} from './components/login/Login';
 import { InicioRoutes } from "./components/routers/InicioRoutes";
 import { PrivateRoute } from "./components/routers/PrivateRoute";
 import { PublicRoute } from "./components/routers/PublicRoute";
+import {CashRoutes} from "./components/routers/CashRoutes";
 
 const init = () => {
     return localStorage.getItem('token') ? {logged: true} : {logged: false};
 }
 
+const extractRol = () => {
+    return localStorage.getItem('role');
+}
+
+
+
+
 const App = () =>{
 
 const [user, setUser] = useState(init());
+const [role, setRole] = useState(extractRol());
+const [compo, setCompo] = useState();
+
+let modulo ;
+
+if(role === 'ADMIN'){
+   modulo = InicioRoutes;
+}else{
+    modulo = CashRoutes;
+}
+
+
+console.log(modulo);
+
 
   return  <Router>
   <div>
@@ -26,7 +48,9 @@ const [user, setUser] = useState(init());
               isAuth={user.logged }
               //exact
               //path="/inicio"
-              component={InicioRoutes}
+              
+              component={modulo}
+              
           />
 
           <Redirect to="/" />
