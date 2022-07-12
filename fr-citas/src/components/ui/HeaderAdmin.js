@@ -6,7 +6,7 @@ const logout = () => {
   localStorage.clear();
 }
 
-export const Header = () => {
+export const HeaderAdmin = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -20,16 +20,22 @@ export const Header = () => {
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <NavLink className="nav-link " activeClassName = "active" exact aria-current="page" to = "/inicio">Inicio</NavLink>
+                  <NavLink className="nav-link " activeClassName = "active" exact aria-current="page" to = "/usuarios">Usuarios</NavLink>
                 </li>
                 <li className="nav-item dropdown">
-                 <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/usuario">Usuario</NavLink>
+                 <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/citas">Citas</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/medic">Médicos</NavLink>
+                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/consultas">Consultas</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/admin" >Administradores</NavLink>
+                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/descuentos" >Descuentos</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/especialidades" >Especialidades</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/tratamientos" >Tratamientos</NavLink>
                 </li>
           </ul> 
 

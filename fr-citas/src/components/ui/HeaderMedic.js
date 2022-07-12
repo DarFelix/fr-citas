@@ -6,7 +6,7 @@ const logout = () => {
   localStorage.clear();
 }
 
-export const HeaderCash = () => {
+export const HeaderMedic = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -19,6 +19,9 @@ export const HeaderCash = () => {
     </button>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/usuarios">Usuarios</NavLink>
+                </li>
                 <li className="nav-item">
                   <NavLink className="nav-link "  activeClassName = "active"  exact aria-current="page" to = "/citas">Citas</NavLink>
                 </li>
