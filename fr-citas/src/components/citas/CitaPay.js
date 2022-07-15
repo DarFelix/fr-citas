@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../assets/css/StyleModal.css';
 
-export const CitaCreation = ({handleCloseModal}) => {
+export const CitaPay = ({handleCloseModal}) => {
   return (
     <div className='modal-style'>
 
@@ -9,8 +9,8 @@ export const CitaCreation = ({handleCloseModal}) => {
       <div className='row'>
         <div className='col'>
           <div className='modal-style-header'>
-            <h3>Crear cita</h3>
-            <i className="fa-solid fa-xmark style-icon" onClick={handleCloseModal}></i>
+            <h3>Pagar cita</h3>
+            <i className="fa-solid fa-xmark style-icon" onClick={handleCloseModal} ></i>
           </div>
           <hr/>
         </div>

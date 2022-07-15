@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: rgb(159, 218, 193);
+    background: rgb(143, 188, 220);
     width: 100%;
     padding: 2rem 1.5rem;
     height: 100%;
@@ -16,3 +16,6 @@
     align-items: center;
 }
 
+.style-icon{
+    font-size: 2em;
+}
