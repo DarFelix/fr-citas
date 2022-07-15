@@ -1,0 +1,67 @@
+.slider_section {
+    background-image: "/fr-citas/src/images/slider1.png";
+    padding: 6% 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  .slider_section .row {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  .slider_detail-box h1 {
+    color: #ffffff;
+    font-size: 52px;
+  }
+  
+  .slider_detail-box h1 span {
+    display: inline-block;
+    color: #434242;
+    font-weight: bold;
+  }
+  
+  .slider_detail-box p {
+    color: #f6f8f7;
+    margin-top: 45px;
+    margin-bottom: 40px;
+  }
+  
+  .slider_detail-box .btn-box .btn-2 {
+    display: inline-block;
+    padding: 10px 45px;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    color: #023b48;
+  }
+  
+  .slider_detail-box .btn-box .btn-2:hover {
+    background-color: transparent;
+    color: #ffffff;
+  }
+  
+  .slider_img-box {
+    margin-right: 5%;
+  }
+  
+  .slider_img-box img {
+    width: 100%;
+  }
+  
+  .carousel-indicators {
+    bottom: -15%;
+  }
+  
+  .carousel-indicators li {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    opacity: 1;
+  }
+  
+  .carousel-indicators .active {
+    background-color: #010106;
+  }
+
+  

@@ -18,6 +18,7 @@ const crearAuth = async (correo, password) => {
 
 /*
 
+
   return axiosInstance.post('oauth/token', credentials, 
          {
           headers: {    
@@ -33,7 +34,7 @@ const crearAuth = async (correo, password) => {
         })
 
 
-
+c2Vydmlkb3ItcHJhY3RpY2FzOjEyMzQ1Ng==
 */
 
 

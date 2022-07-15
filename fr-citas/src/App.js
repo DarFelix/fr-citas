@@ -6,6 +6,7 @@ import { PublicRoute } from "./components/routers/PublicRoute";
 import {CashRoutes} from "./components/routers/CashRoutes";
 import {AdminRoutes} from './components/routers/AdminRoutes';
 import {MedicRoutes} from './components/routers/MedicRoutes';
+import { TratamientosView } from "./components/tratamientos/TratamientosView";
 
 const init = () => {
     return localStorage.getItem('token') ? {logged: true} : {logged: false};
@@ -33,6 +34,8 @@ switch (role) {
     case 'MEDIC':
         modulo = MedicRoutes;
         break;
+    default:
+        modulo = Login;
 
 }
 

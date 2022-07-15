@@ -8,6 +8,7 @@ import {ConsultasView} from '../consultas/ConsultasView';
 import {DescuentoView} from '../descuentos/DescuentoView';
 import {EspecialidadView} from '../especialidades/EspecialidadView';
 import {TratamientosView} from '../tratamientos/TratamientosView';
+import { CitaCreation } from '../citas/CitaCreation';
 
 
 
@@ -25,6 +26,8 @@ export const AdminRoutes = () => {
                     <Route exact path='/descuentos' component={DescuentoView} />
                     <Route exact path='/especialidades' component={EspecialidadView} />
                     <Route exact path='/tratamientos' component={TratamientosView} />
+                    <Route exact path='/crear-cita' component={CitaCreation} />
+
                     <Redirect to="/inicio" />
                 </Switch>
             </div>

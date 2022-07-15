@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,200');
+
+
+
+body {   font-family: Helvetica, san-serif;
+  background: -webkit-linear-gradient(90deg, #2c3e50 10%, #4ca1af 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #2c3e50 10%, #4ca1af 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #2c3e50 10%, #4ca1af 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #2c3e50 10%, #4ca1af 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #2c3e50 10%, #4ca1af 90%); /* W3C */ 
+
+} 
+
+
+.transition-esp { transition: .3s cubic-bezier(.3, 0, 0, 1.3) }
+
+.card-esp {
+    background-color: #fff;
+    bottom: 0;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+    height: 300px;
+    left: 0;
+    margin:3%;
+    overflow: hidden;
+    position:relative;
+    right: 0;
+    top: 0;
+    width: 300px;
+    z-index: 0
+}
+.card-esp:hover {
+    height: 350px;
+    width: 300px;
+}
+.card-esp:hover .cta-container {
+    display: inline;
+    margin-top: 290px;
+}
+.card-esp:hover .card_circle {
+    background-size: cover;
+    border-radius: 0;
+    margin-top: -130px;
+}
+.card-esp:hover h2 {
+    background: #3487f7;
+    color: #fff;
+    margin-top: 100px;
+    padding: 5px;
+}
+.card-esp:hover h2 small { color: #fff }
+.card-esp:hover p { margin-top: 300px }
+.card-esp_circle_crear {
+    background: url('https://w7.pngwing.com/pngs/415/49/png-transparent-grass-area-symbol-brand-sign-add-logo-grass-desktop-wallpaper.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position:relative;
+    width: 450px;
+}
+
+.card-esp_circle_edit {
+    background: url('https://cdn.pixabay.com/photo/2016/03/29/06/22/edit-1287617_1280.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position:relative;
+    width: 450px;
+}
+
+.card-esp_circle_list {
+    background: url('https://w7.pngwing.com/pngs/244/610/png-transparent-computer-icons-checklist-others-miscellaneous-angle-text-thumbnail.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position:relative;
+    width: 450px;
+}
+
+.card-esp_circle_crear_cita {
+    background: url('https://cdn-icons-png.flaticon.com/512/942/942759.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position:relative;
+    width: 450px;
+   
+}
+
+.card-esp_circle_repro_cita {
+    background: url('https://cdn-icons-png.flaticon.com/512/2132/2132729.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position: absolute;
+    width: 450px;
+}
+
+.card-esp_circle_search {
+    background: url('https://e7.pngegg.com/pngimages/532/728/png-clipart-logo-web-development-search-engine-optimization-google-search-management-search-search-engine-optimization-text.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position: absolute;
+    width: 450px;
+}
+
+.card-esp_circle_pay {
+    background: url('https://w7.pngwing.com/pngs/859/20/png-transparent-computer-icons-business-payment-payment-method-blue-text-logo.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position: absolute;
+    width: 450px;
+}
+
+.card-esp_circle_cancel {
+    background: url('https://w7.pngwing.com/pngs/978/587/png-transparent-business-presentation-cancel-building-text-trademark-thumbnail.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position: absolute;
+    width: 450px;
+}
+
+
+.card-esp_circle_add_user {
+    background: url('https://www.clipartmax.com/png/middle/199-1998497_male-user-add-icon-add-user-icon-png.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position: absolute;
+    width: 450px;
+}
+
+.card-esp_circle_edit_user {
+    background: url('https://toppng.com/uploads/preview/change-user-icon-11553508081k7d7iougnn.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position: absolute;
+    width: 450px;
+}
+
+.card-esp_circle_search_u {
+    background: url('https://cdn.iconscout.com/icon/free/png-256/search-user-2197892-1911015.png') no-repeat center bottom;
+    background-color: #3487f7;
+    background-size:30%;
+    border-radius: 50%;
+    height: 400px;
+    margin-left: -75px;
+    margin-top: -270px;
+    position: absolute;
+    width: 450px;
+}
+
+
+
+
+
+
+h2 {
+    color: #3487f7;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 24px;
+    font-weight: 200;
+    margin-top: 150px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 9999;
+}
+#parrafo-card {
+    color: rgba(0,0,0,.6);
+    font-family: 'Raleway', sans-serif;
+    font-size: 100%;
+    font-weight: normal;
+    margin-top: 200px;
+    position: absolute;
+    text-align:center;
+    z-index: 9999;
+}
+.cta-container {
+    display: none;
+    margin-top: 320px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 9999;
+}
+.cta {
+    -moz-border-radius: 2px;
+    -moz-transition: 0.2s ease-out;
+    -ms-transition: 0.2s ease-out;
+    -o-transition: 0.2s ease-out;
+    -webkit-border-radius: 2px;
+    -webkit-transition: 0.2s ease-out;
+    background-clip: padding-box;
+    border: 2px solid #3487f7;
+    border-radius: 2px;
+    color: #3487f7;
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    height: 36px;
+    letter-spacing: 0.5px;
+    line-height: 36px;
+    margin-bottom: 15px;
+    padding: 0 2rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.2s ease-out;
+}
+.cta:hover {
+    background-color: #3487f7;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: #fff;
+    -moz-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/*  https://codepen.io/knolaust/pen/bNvZRQ  */
+
