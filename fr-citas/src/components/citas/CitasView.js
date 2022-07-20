@@ -85,7 +85,7 @@ switch(openModal){
               <p id="parrafo-card">Creación de cita médica para un paciente.</p>
               <div className="cta-container transition-esp">
                
-                <button href="#" className="cta" onClick={handleModalCrear}>Crear</button>
+                <button href="#" className="cta" id={`crear-cita-bt`} onClick={handleModalCrear}>Crear</button>
                
                 </div>
               <div className="card-esp_circle_crear_cita transition-esp"></div>
@@ -119,7 +119,7 @@ switch(openModal){
               <p id="parrafo-card">Listado de todas las citas. Se pueden ordenar por uno de los criterios seleccionados.</p>
               <div className="cta-container transition-esp">
               
-                <button href="#" className="cta" onClick={handleModalListar} >Listar</button>
+                <button href="#" className="cta" id={`lista-cita-bt`} onClick={handleModalListar} >Listar</button>
                 </div>
               <div className="card-esp_circle_list transition-esp"></div>
           </div>

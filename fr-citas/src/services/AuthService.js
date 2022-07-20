@@ -10,7 +10,7 @@ const crearAuth = async (correo, password) => {
     return axiosInstance.post('oauth/token', credentials, 
          {
           headers: {    
-            'Authorization': `Basic ${BASIC_AUTH}`,
+            'Authorization': `Basic ${BASIC_AUTH}`, 
             'Content-Type': 'application/x-www-form-urlencoded'},
 
         })

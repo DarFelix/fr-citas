@@ -10,7 +10,7 @@ export const CitaCreation = ({handleCloseModal}) => {
         <div className='col'>
           <div className='modal-style-header'>
             <h3>Crear cita</h3>
-            <i className="fa-solid fa-xmark style-icon" onClick={handleCloseModal}></i>
+            <i className="fa-solid fa-xmark style-icon" id={`cerrar-vent-crear`} onClick={handleCloseModal}></i>
           </div>
           <hr/>
         </div>
