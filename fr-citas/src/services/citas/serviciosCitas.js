@@ -30,10 +30,21 @@ const listaPag = () => {
 
 }
 
+const getCitas =(params) => {
+
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    }
+
+    return axiosInstance.get('cita/cits', {params, headers});
+}
 
 
 
 export{
-    lista, listaPag
+    lista, listaPag, getCitas
  }
  

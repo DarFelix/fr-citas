@@ -1,12 +1,180 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef} from 'react';
+import Pagination from "@material-ui/lab/Pagination";
 import '../../assets/css/StyleModal.css';
-import {lista, listaPag} from '../../services/citas/serviciosCitas';
+import {getCitas} from '../../services/citas/serviciosCitas';
 import '../../assets/css/StyleTable.css';
+import { useTable } from "react-table";
 
 export const CitaList = ({handleCloseModal}) => {
 
 const [citas, setCitas] = useState([]);
-const [cit, setCit] = useState([]);
+const citasRef = useRef();
+
+const [sortBy, setSortBy] = useState('idCita');
+const [page, setPage] = useState(1);
+const [count, setCount] = useState(0);
+const [pageSize, setPageSize] = useState(3);
+const pageSizes = [3, 6, 9];
+
+citasRef.current = citas;
+
+const getRequestParams = (page, pageSize, sortBy) => {
+  let params = {};
+  
+  if (page) {
+    params["page"] = page - 1;
+  }
+  if (pageSize) {
+    params["size"] = pageSize;
+  }
+  if (sortBy) {
+    params["sortBy"] = 'idCita';
+  }
+  return params;
+};
+
+const retrieveCitas = () => {
+  const params = getRequestParams( page, pageSize, sortBy);
+
+  getCitas(params)
+    .then((response) => {
+      const { citas, totalPages } = response.data;
+      setCitas(citas);
+      setCount(totalPages);
+      console.log(response.data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+useEffect(retrieveCitas, [page, pageSize]);
+
+const handlePageChange = (event, value) => {
+  setPage(value);
+};
+
+const handlePageSizeChange = (event) => {
+  setPageSize(event.target.value);
+  setPage(1);
+};
+
+
+const columns = useMemo(
+  () => [
+    {
+      Header: "Cita ID",
+      accessor: "idCita",
+    },
+    {
+      Header: "Fecha Cita",
+      accessor: "fechaCita",
+    },
+    {
+      Header: "Nombre Paciente",
+      accessor: "usuario.nombres",
+    },
+    {
+      Header: "Nombre Médico",
+      accessor: "medico.nombres",
+    },
+  ],
+  []
+);
+
+const {
+  getTableProps,
+  getTableBodyProps,
+  headerGroups,
+  rows,
+  prepareRow,
+} = useTable({
+  columns,
+  data: citas,
+});
+
+
+
+
+  return (
+    <div className='modal-style'>
+
+          <div className='modal-style-header'>
+            <h3>Listar citas</h3>
+            <i className="fa-solid fa-xmark style-icon" onClick={handleCloseModal} ></i>
+          </div>
+          <hr/>
+      
+
+          <div className="list row">
+                
+
+                <div className="col-md-12 list">
+                  <div className="mt-3">
+                    {"Items per Page: "}
+                    <select onChange={handlePageSizeChange} value={pageSize}>
+                      {pageSizes.map((size) => (
+                        <option key={size} value={size}>
+                          {size}
+                        </option>
+                      ))}
+                    </select>
+
+                    <Pagination
+                      className="my-3"
+                      count={count}
+                      page={page}
+                      siblingCount={1}
+                      boundaryCount={1}
+                      variant="outlined"
+                      shape="rounded"
+                      onChange={handlePageChange}
+                    />
+                  </div>
+
+                  <table
+                    className="table table-striped table-bordered"
+                    {...getTableProps()}
+                  >
+                    <thead>
+                      {headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                          {headerGroup.headers.map((column) => (
+                            <th {...column.getHeaderProps()}>
+                              {column.render("Header")}
+                            </th>
+                          ))}
+                        </tr>
+                      ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                      {rows.map((row, i) => {
+                        prepareRow(row);
+                        return (
+                          <tr {...row.getRowProps()}>
+                            {row.cells.map((cell) => {
+                              return (
+                                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                              );
+                            })}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+               
+
+              </div>
+              
+
+    </div>
+  )
+}
+
+/*
+
 
 const listarCitas = async () => {
   try{
@@ -18,28 +186,9 @@ const listarCitas = async () => {
   }
 }
 
-
-const listarCit = async () => {
-  try{
-    const {data} = await lista();
-    setCit(data);
-
-  }catch(error){
-    console.log(error);
-  }
-}
-
-console.log(cit.length);
-
-
-
 useEffect(()=> {
-  listarCit();
   listarCitas();
 }, []);
-
-
-
 
   return (
     <div className='modal-style'>
@@ -115,3 +264,4 @@ useEffect(()=> {
     </div>
   )
 }
+*/
