@@ -71,12 +71,28 @@ const columns = useMemo(
       accessor: "fechaCita",
     },
     {
-      Header: "Nombre Paciente",
+      Header: "Nombres Paciente",
       accessor: "usuario.nombres",
+    },
+    {
+      Header: "Apellidos Paciente",
+      accessor: "usuario.apellidos",
     },
     {
       Header: "Nombre Médico",
       accessor: "medico.nombres",
+    },
+    {
+      Header: "Apellidos Médico",
+      accessor: "medico.apellidos",
+    },
+    {
+      Header: "Correo paciente",
+      accessor: "usuario.correo",
+    },
+    {
+      Header: "Estado atención",
+      accessor: "estadoAtencion",
     },
   ],
   []
@@ -111,7 +127,7 @@ const {
 
                 <div className="col-md-12 list">
                   <div className="mt-3">
-                    {"Items per Page: "}
+                    {"Filas por página: "}
                     <select onChange={handlePageSizeChange} value={pageSize}>
                       {pageSizes.map((size) => (
                         <option key={size} value={size}>
@@ -132,6 +148,8 @@ const {
                     />
                   </div>
 
+
+                  <div className='table-wrapper'>
                   <table
                     className="table table-striped table-bordered"
                     {...getTableProps()}
@@ -162,6 +180,9 @@ const {
                       })}
                     </tbody>
                   </table>
+                  </div> 
+                  
+
                 </div>
 
                
@@ -202,7 +223,7 @@ useEffect(()=> {
           </div>
           <hr/>
           <div className='table-wrapper'>
-          <table className="table table-light table-striped "  >
+          <table className="table table-light table-striped "  > 
               <thead>
                 <tr>
                   <th scope="col">Cita ID</th>

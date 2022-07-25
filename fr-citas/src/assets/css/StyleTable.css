@@ -16,8 +16,16 @@
     left: 0;
   }
   
+  /*
   .table-wrapper table thead th,
   .table-wrapper table tbody td {
     border: 1px solid #000;
     background-color: #FFF;
+  }
+
+  */
+
+  .table-wrapper table thead th {
+    border: 1px solid #000;
+    background-color: rgb(166, 168, 173);
   }

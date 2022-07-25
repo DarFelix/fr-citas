@@ -1,0 +1,40 @@
+
+
+.account-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+}
+.account-details >div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    width: 50%;
+}
+
+label {
+    padding: 0 5px;
+    text-align: right;
+    vertical-align: middle;
+    width: 40%;
+}
+input {
+    padding: 5px;
+    vertical-align: middle;
+    width: 55%;
+   
+}
+
+select {
+    background: transparent;
+}
+
+   
+    
+   
+   
+    
+
+
