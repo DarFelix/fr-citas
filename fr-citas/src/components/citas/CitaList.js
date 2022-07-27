@@ -71,6 +71,10 @@ const columns = useMemo(
       accessor: "fechaCita",
     },
     {
+      Header: "Consulta",
+      accessor: "consulta.especialidad.nombre",
+    },
+    {
       Header: "Nombres Paciente",
       accessor: "usuario.nombres",
     },

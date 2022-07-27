@@ -42,9 +42,21 @@ const getCitas =(params) => {
     return axiosInstance.get('cita/cits', {params, headers});
 }
 
+const crearCita =(cita) => {
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    }
+
+    return axiosInstance.post('cita', cita, {headers});
+
+}
+
 
 
 export{
-    lista, listaPag, getCitas
+    lista, listaPag, getCitas, crearCita
  }
  

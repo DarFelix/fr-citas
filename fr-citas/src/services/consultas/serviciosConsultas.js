@@ -1,6 +1,16 @@
 import { axiosInstance } from "../../helpers/axios-config";
 
-const getUserByDoc =(numeroDoc) => {
+const getConsultas = () =>{
+
+    const TOKEN = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    }
+    return axiosInstance.get('consulta', {headers} );
+}
+
+const getConsultaById =(idConsulta) => {
     
 
     const TOKEN = localStorage.getItem('token');
@@ -10,24 +20,10 @@ const getUserByDoc =(numeroDoc) => {
         'Content-type': 'application/json'
     }
 
-    return axiosInstance.get(`usuario/documento/${numeroDoc}`, {headers});
+    return axiosInstance.get(`consulta/${idConsulta}`, {headers});
     
 }
-
-
-const getMedicsByConsulta =(idEspecialidad) => {
-
-    const TOKEN = localStorage.getItem('token');
-
-    const headers = {
-        'Authorization': `bearer ${TOKEN}`,
-        'Content-type': 'application/json'
-    }
-
-    return axiosInstance.get(`usuario/medicosConsulta/${idEspecialidad}`, {headers});
-}
-
+ 
 export{
-    getUserByDoc, getMedicsByConsulta
- }
-  
+    getConsultas, getConsultaById
+}
