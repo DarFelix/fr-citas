@@ -59,7 +59,7 @@ const handlePageSizeChange = (event) => {
   setPage(1);
 };
 
-
+ 
 const columns = useMemo(
   () => [
     {
@@ -132,7 +132,7 @@ const {
                 <div className="col-md-12 list">
                   <div className="mt-3">
                     {"Filas por página: "}
-                    <select onChange={handlePageSizeChange} value={pageSize}>
+                    <select onChange={handlePageSizeChange} value={pageSize} id='select-pages'>
                       {pageSizes.map((size) => (
                         <option key={size} value={size}>
                           {size}

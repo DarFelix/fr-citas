@@ -253,11 +253,11 @@ const guardarCita = async (e)=> {
                             <div className="account-details">
                                     <div><label>Hora de cita</label>
                                                         <select className="form-select" 
-                                                          required
+                                                          required 
                                                           name='hora'
                                                           onChange={ (e) => handleInputChange(e)}
                                                           >
-                                                            <option value="">Selecciona la hora</option>
+                                                            <option value="">--SELECCIONE--</option>
                                                             <option value="06:00:00">06:00 AM</option>
                                                             <option value="06:20:00">06:20 AM</option>
                                                             <option value="06:40:00">06:40 AM</option>

@@ -54,9 +54,20 @@ const crearCita =(cita) => {
 
 }
 
+const getCitasPendientes =(params) => {
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    }
+
+    return axiosInstance.get('cita/citasXpacPendientesPag', {params, headers});
+}
+
 
 
 export{
-    lista, listaPag, getCitas, crearCita
+    lista, listaPag, getCitas, crearCita, getCitasPendientes 
  }
  

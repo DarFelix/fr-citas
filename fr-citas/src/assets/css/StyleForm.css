@@ -23,12 +23,15 @@ label {
 input {
     padding: 5px;
     vertical-align: middle;
-    width: 55%;
+    width: 45%;
+    
    
 }
 
 select {
-    background: transparent;
+    /*background: transparent;
+    */
+    width: 45%;
 }
 
    

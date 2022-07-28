@@ -29,3 +29,9 @@
     border: 1px solid #000;
     background-color: rgb(166, 168, 173);
   }
+
+
+  #select-pages {
+    background: transparent;
+    width: 10%;
+  }
