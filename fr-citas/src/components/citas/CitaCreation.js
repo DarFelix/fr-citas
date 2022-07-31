@@ -84,7 +84,9 @@ export const CitaCreation = ({handleCloseModal}) => {
   }
 
   useEffect(()=>{
+    if(idMedico !== '' ){
     getMedico();
+    }
 
   }, [idMedico]);
 
@@ -145,7 +147,9 @@ const listarMedicos = async () =>{
 }
 
 useEffect(()=>{
-  listarMedicos();
+  if(idConsulta !== ''){
+    listarMedicos();
+  }
 }, [ idConsulta]);
 
 
@@ -221,7 +225,7 @@ const guardarCita = async (e)=> {
 
 
                   <div className="main-block">
-                    <form onSubmit={(e) => guardarCita(e)}>
+                    <form onSubmit={(e) => guardarCita(e)}> 
                         
                         <fieldset>
                             

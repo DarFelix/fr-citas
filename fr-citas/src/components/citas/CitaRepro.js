@@ -1,23 +1,27 @@
-import React, { useState, useEffect, useMemo, useRef} from 'react';
+import React, { useState, useEffect, useMemo, useRef, PureComponent} from 'react';
 import Pagination from "@material-ui/lab/Pagination";
 import '../../assets/css/StyleModal.css';
-import {getCitasPendientes} from '../../services/citas/serviciosCitas';
+import {getCitasPendientes, getCitaById} from '../../services/citas/serviciosCitas';
 import '../../assets/css/StyleTable.css';
 import { useTable } from "react-table";
-import Swal from 'sweetalert2';
+
 
 export const CitaRepro = ({handleCloseModal}) => { 
 
   const [numeroDoc, setNumeroDoc] = useState('');
 
   const [citas, setCitas] = useState([]);
+  const [cita, setCita] = useState();
   const citasRef = useRef();
+  const [idCit, setIdCit] = useState('');
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [pageSize, setPageSize] = useState(3);
   const pageSizes = [3, 6, 9];
   const [nombresUsuario, setNombresUsuario] = useState('');
   const [tabla, setTabla] = useState(false);
+  const [form, setForm] = useState(false);
+
 
   citasRef.current = citas;
 
@@ -47,6 +51,7 @@ export const CitaRepro = ({handleCloseModal}) => {
   };
 
   const retrieveCitas = () => {
+
     const params = getRequestParams( page, pageSize, numeroDoc);
   
     getCitasPendientes(params)
@@ -54,7 +59,6 @@ export const CitaRepro = ({handleCloseModal}) => {
         const { citas, totalPages } = response.data;
         setCitas(citas);
         setCount(totalPages);
-        //console.log(response.data);
         setNombresUsuario(response.data.citas[0].usuario.nombres+' '+ response.data.citas[0].usuario.apellidos);
         setTabla(true);
       })
@@ -64,11 +68,34 @@ export const CitaRepro = ({handleCloseModal}) => {
       });
   };
 
-  useEffect(retrieveCitas, [page, pageSize]);
+  useEffect(()=>{
+    if(numeroDoc !== ''){
+    retrieveCitas();
+    }
+  },[page, pageSize]);
 
-  const reprogCita =() => {
+  const obtenerIdCita = async (rowIndex) => {
     setTabla(false);
+    setIdCit(rowIndex);
+  
   }
+
+  useEffect(()=>{
+    if(idCit !== '' && idCit !== undefined ){
+    setForm(true);
+    obtenerIdCita();
+    
+    const obj = citas[idCit];
+    
+    if(obj){
+      setCita(obj);
+      console.log(cita);
+    }
+    }
+    
+  }, [idCit]);
+
+
 
 
   const handlePageChange = (event, value) => {
@@ -100,6 +127,18 @@ export const CitaRepro = ({handleCloseModal}) => {
       },
       {
         Header: "Reprogramar?",
+        accessor: "actions",
+        Cell: (props) => {
+          const rowIdx = props.row.id;
+         
+          return (
+            <div>
+              <span onClick={() => obtenerIdCita(rowIdx)}>
+                <i className="far fa-edit action mr-2"></i>
+              </span>
+            </div>
+          );
+        },
 
       },
     ],
@@ -218,6 +257,34 @@ export const CitaRepro = ({handleCloseModal}) => {
 
 
       </div>
+      }
+      {
+      form === true &&
+        <div>
+            <h5>Datos de la cita:</h5>
+            <div className="account-details">
+                                     <div>
+                                      <label>Fecha de cita: </label>
+                                      <label>{cita.fechaCita}</label>
+                                    </div>
+            </div>
+            <div className="account-details">
+                                     <div>
+                                      <label>Consulta: </label>
+                                      <label>{cita.consulta.especialidad.nombre}</label>
+                                    </div>
+            </div>
+            <div className="account-details">
+                                     <div>
+                                      <label>Médico: </label>
+                                      <label>{cita.medico.nombres} {cita.medico.apellidos }</label>
+                                    </div>
+            </div>
+            <h5>Nueva fecha:</h5>
+          
+
+
+        </div>
       }
 
      </div> 

@@ -41,7 +41,6 @@ const retrieveCitas = () => {
       const { citas, totalPages } = response.data;
       setCitas(citas);
       setCount(totalPages);
-      console.log(response.data);
     })
     .catch((e) => {
       console.log(e);
