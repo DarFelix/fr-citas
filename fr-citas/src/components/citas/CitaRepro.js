@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo, useRef, PureComponent} from 'react';
 import Pagination from "@material-ui/lab/Pagination";
 import '../../assets/css/StyleModal.css';
-import {getCitasPendientes, getCitaById} from '../../services/citas/serviciosCitas';
+import {getCitasPendientes, reprogCita} from '../../services/citas/serviciosCitas';
+import {getMedicsByConsulta, getUserByDoc} from '../../services/usuarios/serviciosUsuarios';
 import '../../assets/css/StyleTable.css';
 import { useTable } from "react-table";
+import Swal from 'sweetalert2';
 
 
 export const CitaRepro = ({handleCloseModal}) => { 
@@ -21,7 +23,15 @@ export const CitaRepro = ({handleCloseModal}) => {
   const [nombresUsuario, setNombresUsuario] = useState('');
   const [tabla, setTabla] = useState(false);
   const [form, setForm] = useState(false);
+  const [fecha, setFecha] = useState([]);
+  const [hora, setHora] = useState([]);
+  const [fechaCita, setFechaCita] = useState([]);
+  const[arregloMedicos, setArregloMedicos] = useState([]);
+  const[idMedico, setIdMedico] = useState('');
+  const[medico, setMedico] = useState([]);
 
+  const [valoresForm, setValoresForm] = useState({});
+  const {fech='', hor='', medic=''} = valoresForm;
 
   citasRef.current = citas;
 
@@ -29,10 +39,25 @@ export const CitaRepro = ({handleCloseModal}) => {
   const handleInputChange = ({ target })=> {
     const {name, value} = target;
     
+    setValoresForm({fech, hor, medic});
     if(name === 'numeroDoc'){
       setNumeroDoc(value);
     }
-
+    if (name === 'fecha'){
+      setFecha(value);
+      setValoresForm({fech: value, hor, medic});
+    }
+    if (name === 'hora'){
+      setHora(value);
+      setValoresForm({fech, hor: value, medic});
+      console.log(hora);
+    }
+    if (name === 'medico'){
+      setIdMedico(value);
+      setValoresForm({fech, hor, medic: value});
+      console.log(idMedico);
+    }
+    setFechaCita(fecha+'T'+hora);
   }
 
   const getRequestParams = (page, pageSize, numeroDoc) => {
@@ -89,13 +114,56 @@ export const CitaRepro = ({handleCloseModal}) => {
     
     if(obj){
       setCita(obj);
-      console.log(cita);
     }
     }
     
   }, [idCit]);
 
+  useEffect(()=>{   
+    if(cita !== undefined ){
+    setValoresForm({
+      fech: cita.fechaCita.substring(0,10), 
+      hor: cita.fechaCita.substring(11,19),
+      medic: cita.medico.numeroDoc
+    
+   }
+   ); 
+  }
+}, [cita]);
 
+
+const listarMedicos = async () =>{
+  try{
+    const {data} = await getMedicsByConsulta(cita.consulta.idConsulta);
+    setArregloMedicos(data);
+  }catch(error){
+    console.log(error);
+  }
+}
+
+useEffect(()=>{
+  if(cita !== undefined){
+    listarMedicos();
+  }
+}, [cita]);
+
+
+const getMedico = async ()=>{
+  try{
+      const {data} = await getUserByDoc(idMedico);
+      setMedico(data);
+      
+    } catch (error){
+      console.log(error);
+      
+  }
+}
+
+useEffect(()=>{
+  if(idMedico !== ''){
+  getMedico();
+  }
+}, [idMedico]);
 
 
   const handlePageChange = (event, value) => {
@@ -157,6 +225,60 @@ export const CitaRepro = ({handleCloseModal}) => {
     data: citas,
   });
 
+
+ 
+
+
+  const confirmarRep = async(e) => {
+    e.preventDefault();
+
+    
+
+      const cuerpo = {
+        fechaCita,
+        usuario: cita.usuario,
+        medico: medico,
+        consulta: cita.consulta,
+        descuentoMotivo: cita.descuentoMotivo
+      }
+
+      console.log(cuerpo);
+      
+
+            try{
+              Swal.fire({
+                allowOutsideClick: false,
+                text: 'Cargando...'
+              });
+              Swal.showLoading();
+
+                await reprogCita(cita.idCita, cuerpo);
+                
+          
+
+              Swal.close();
+              Swal.fire(
+                'Cita reprogramada con éxito',
+                'Consulta: '+cita.consulta.especialidad.nombre+'. Médico: '+medico.nombres+' '+medico.apellidos+'. Fecha: '+fecha+'. Hora: '+hora+'.',
+                'success' 
+                );
+            
+            setForm(false);
+          }catch(error){
+            Swal.close();
+            let msj;
+            console.log(error);
+            if(error && error.response && error.response.data && error.response.data.message){
+                msj = error.response.data.message;
+            } else {
+                msj = 'Ocurrio un error, por favor verifique';
+            }
+            Swal.fire('Error', msj ,'error');  
+            e.target.reset();
+          }
+  }
+
+  
   
   return (
     <div className='modal-style'>
@@ -261,6 +383,9 @@ export const CitaRepro = ({handleCloseModal}) => {
       {
       form === true &&
         <div>
+
+            <form onSubmit={(e) => confirmarRep(e)}>
+
             <h5>Datos de la cita:</h5>
             <div className="account-details">
                                      <div>
@@ -280,10 +405,92 @@ export const CitaRepro = ({handleCloseModal}) => {
                                       <label>{cita.medico.nombres} {cita.medico.apellidos }</label>
                                     </div>
             </div>
-            <h5>Nueva fecha:</h5>
-          
+            <h5>Actualización:</h5>
+            <div className="account-details">
+                                     <div><label>Nueva fecha de cita</label>
+                                                            <input  
+                                                              type="date"
+                                                             name="fecha" 
+                                                             value={fech}
+                                                             onChange={ (e) => handleInputChange(e)}
+                                                             required/>
+                                    </div> 
+            </div>
+            <div className="account-details">
+                                    <div><label>Nueva hora de cita</label>
+                                                        <select className="form-select" 
+                                                          required 
+                                                          name='hora'
+                                                          value={hor}
+                                                          onChange={ (e) => handleInputChange(e)}
+                                                          >
+                                                            <option value="">--SELECCIONE--</option>
+                                                            <option value="06:00:00">06:00 AM</option>
+                                                            <option value="06:20:00">06:20 AM</option>
+                                                            <option value="06:40:00">06:40 AM</option>
+                                                            <option value="07:00:00">07:00 AM</option>
+                                                            <option value="07:20:00">07:20 AM</option>
+                                                            <option value="07:40:00">07:40 AM</option>
+                                                            <option value="08:00:00">08:00 AM</option>
+                                                            <option value="08:20:00">08:20 AM</option>
+                                                            <option value="08:40:00">08:40 AM</option>
+                                                            <option value="09:00:00">09:00 AM</option>
+                                                            <option value="09:20:00">09:20 AM</option>
+                                                            <option value="09:40:00">09:40 AM</option>
+                                                            <option value="10:00:00">10:00 AM</option>
+                                                            <option value="10:20:00">10:20 AM</option>
+                                                            <option value="10:40:00">10:40 AM</option>
+                                                            <option value="11:00:00">11:00 AM</option>
+                                                            <option value="11:20:00">11:20 AM</option>
+                                                            <option value="11:40:00">11:40 AM</option>
+                                                            <option value="12:00:00">12:00 PM</option>
+                                                            <option value="12:20:00">12:20 PM</option>
+                                                            <option value="12:40:00">12:40 PM</option>
+                                                            <option value="13:00:00">01:00 PM</option>
+                                                            <option value="13:20:00">01:20 PM</option>
+                                                            <option value="13:40:00">01:40 PM</option>
+                                                            <option value="14:00:00">02:00 PM</option>
+                                                            <option value="14:20:00">02:20 PM</option>
+                                                            <option value="14:40:00">02:40 PM</option>
+                                                            <option value="15:00:00">03:00 PM</option>
+                                                            <option value="15:20:00">03:20 PM</option>
+                                                            <option value="15:40:00">03:40 PM</option>
+                                                            <option value="16:00:00">04:00 PM</option>
+                                                            <option value="16:20:00">04:20 PM</option>
+                                                            <option value="16:40:00">04:40 PM</option>
+                                                            <option value="17:00:00">05:00 PM</option>
+                                                            <option value="17:20:00">05:20 PM</option>
+                                                            <option value="17:40:00">05:40 PM</option>
+                                                            <option value="18:00:00">06:00 PM</option>
+                                                            <option value="18:20:00">06:20 PM</option>
+                                                            <option value="18:40:00">06:40 PM</option>
+                                                            <option value="19:00:00">07:00 PM</option>
+                                                          </select>
+                                  </div>
+              </div>
 
+              <div className="account-details">
+                              <div><label>Médico</label>
+                                                            <select className="form-select"
+                                                              required
+                                                              name='medico'
+                                                              value={medic}
+                                                              onChange={ (e) => handleInputChange(e)}>
+                                                                  <option value=''>--SELECCIONE--</option>
+                                                                  {
+                                                                  arregloMedicos.map(({idUsuario, numeroDoc, nombres, apellidos})=> {
+                                                                      return <option key={idUsuario} value={numeroDoc}>{nombres+' '+apellidos}</option>
+                                                                  })
+                                                                  }
+                                                            </select>       
+                              </div>
+                </div>
 
+              <div className="container-btn-crear">
+                              <button id='btn-crear-cita'>Actualizar cita</button>
+              </div>
+
+              </form>
         </div>
       }
 

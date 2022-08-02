@@ -303,7 +303,7 @@ const guardarCita = async (e)=> {
                                                             <option value="18:40:00">06:40 PM</option>
                                                             <option value="19:00:00">07:00 PM</option>
                                                           </select>
-                                  </div>
+                                  </div> 
                             </div>
 
                             <div className="account-details">
@@ -320,7 +320,7 @@ const guardarCita = async (e)=> {
                                                                       return <option key={index} value={consult.especialidad.idEspecialidad}>{consult.especialidad.nombre}</option>
                                                                   })
                                                                   }
-                                                            </select>                          
+                                                            </select>                           
                                 </div>
                             </div>
 
