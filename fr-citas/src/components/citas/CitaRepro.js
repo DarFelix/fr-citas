@@ -23,12 +23,12 @@ export const CitaRepro = ({handleCloseModal}) => {
   const [nombresUsuario, setNombresUsuario] = useState('');
   const [tabla, setTabla] = useState(false);
   const [form, setForm] = useState(false);
-  const [fecha, setFecha] = useState([]);
-  const [hora, setHora] = useState([]);
-  const [fechaCita, setFechaCita] = useState([]);
+  const [fecha, setFecha] = useState();
+  const [hora, setHora] = useState();
+  const [fechaCita, setFechaCita] = useState();
   const[arregloMedicos, setArregloMedicos] = useState([]);
   const[idMedico, setIdMedico] = useState('');
-  const[medico, setMedico] = useState([]);
+  const[medico, setMedico] = useState();
 
   const [valoresForm, setValoresForm] = useState({});
   const {fech='', hor='', medic=''} = valoresForm;
@@ -57,8 +57,15 @@ export const CitaRepro = ({handleCloseModal}) => {
       setValoresForm({fech, hor, medic: value});
       console.log(idMedico);
     }
-    setFechaCita(fecha+'T'+hora);
+   
+   if(name !== ''){
+    setFechaCita(fech+'T'+hor);
+   }
+
   }
+
+  console.log(valoresForm);
+  console.log(idMedico);
 
   const getRequestParams = (page, pageSize, numeroDoc) => {
     let params = {};
@@ -85,7 +92,8 @@ export const CitaRepro = ({handleCloseModal}) => {
         setCitas(citas);
         setCount(totalPages);
         setNombresUsuario(response.data.citas[0].usuario.nombres+' '+ response.data.citas[0].usuario.apellidos);
-        setTabla(true);
+        setTabla(true); 
+        
       })
       .catch((e) => {
         console.log(e);
@@ -231,9 +239,7 @@ useEffect(()=>{
 
   const confirmarRep = async(e) => {
     e.preventDefault();
-
     
-
       const cuerpo = {
         fechaCita,
         usuario: cita.usuario,
@@ -243,8 +249,8 @@ useEffect(()=>{
       }
 
       console.log(cuerpo);
-      
-
+    
+  
             try{
               Swal.fire({
                 allowOutsideClick: false,
@@ -259,7 +265,7 @@ useEffect(()=>{
               Swal.close();
               Swal.fire(
                 'Cita reprogramada con éxito',
-                'Consulta: '+cita.consulta.especialidad.nombre+'. Médico: '+medico.nombres+' '+medico.apellidos+'. Fecha: '+fecha+'. Hora: '+hora+'.',
+                'Consulta: '+cita.consulta.especialidad.nombre+'. Médico: '+medico.nombres+' '+medico.apellidos+'. Fecha: '+fech+'. Hora: '+hor+'.',
                 'success' 
                 );
             
