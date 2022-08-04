@@ -87,9 +87,21 @@ const reprogCita = (idCita, cita) =>{
     return axiosInstance.put(`cita/${idCita}`, cita, {headers});
 }
 
+const payCita = (idCita) =>{
+
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': `application/json`
+    }
+
+    return axiosInstance.put(`cita/pay/${idCita}`, {} , {headers});
+}
+
 
 
 export{
-    lista, listaPag, getCitas, crearCita, getCitasPendientes, getCitaById, reprogCita
+    lista, listaPag, getCitas, crearCita, getCitasPendientes, getCitaById, reprogCita, payCita
  }
  

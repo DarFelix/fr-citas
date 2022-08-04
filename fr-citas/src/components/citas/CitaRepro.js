@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, PureComponent} from 'react';
+import React, { useState, useEffect, useMemo, useRef} from 'react';
 import Pagination from "@material-ui/lab/Pagination";
 import '../../assets/css/StyleModal.css';
 import {getCitasPendientes, reprogCita} from '../../services/citas/serviciosCitas';
@@ -6,7 +6,7 @@ import {getMedicsByConsulta, getUserByDoc} from '../../services/usuarios/servici
 import '../../assets/css/StyleTable.css';
 import { useTable } from "react-table";
 import Swal from 'sweetalert2';
-
+ 
 
 export const CitaRepro = ({handleCloseModal}) => { 
 
@@ -62,7 +62,7 @@ export const CitaRepro = ({handleCloseModal}) => {
     setFechaCita(fech+'T'+hor);
    }
 
-  }
+  } 
 
   console.log(valoresForm);
   console.log(idMedico);
@@ -241,7 +241,7 @@ useEffect(()=>{
     e.preventDefault();
     
       const cuerpo = {
-        fechaCita,
+        fechaCita: fechaCita,
         usuario: cita.usuario,
         medico: medico,
         consulta: cita.consulta,
@@ -288,8 +288,8 @@ useEffect(()=>{
   
   return (
     <div className='modal-style'>
-
      <div className='container-fluid'>
+
       <div className='row'>
         <div className='col'>
           <div className='modal-style-header'>
@@ -298,7 +298,6 @@ useEffect(()=>{
           </div>
           <hr/>
         </div>
-
       </div>
 
       
