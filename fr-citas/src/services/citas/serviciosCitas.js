@@ -99,9 +99,34 @@ const payCita = (idCita) =>{
     return axiosInstance.put(`cita/pay/${idCita}`, {} , {headers});
 }
 
+const cancelarCita = (idCita) =>{
+
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': `application/json`
+    }
+
+    return axiosInstance.put(`cita/cancelarCita/${idCita}`, {} , {headers});
+}
+
+const buscarCitaSpec =(params) => {
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    } 
+
+    return axiosInstance.post('cita/search', null , {params, headers});
+
+}
+
 
 
 export{
-    lista, listaPag, getCitas, crearCita, getCitasPendientes, getCitaById, reprogCita, payCita
+    lista, listaPag, getCitas, crearCita, getCitasPendientes, getCitaById, reprogCita, payCita, cancelarCita,
+    buscarCitaSpec
  }
  

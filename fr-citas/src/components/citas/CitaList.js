@@ -94,8 +94,8 @@ const columns = useMemo(
       accessor: "usuario.correo",
     },
     {
-      Header: "Estado atención",
-      accessor: "estadoAtencion",
+      Header: "Estado Pago",
+      accessor: "estadoPago",
     },
   ],
   []

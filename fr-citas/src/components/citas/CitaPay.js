@@ -4,7 +4,7 @@ import '../../assets/css/StyleModal.css';
 import {getCitasPendientes, payCita} from '../../services/citas/serviciosCitas';
 import '../../assets/css/StyleTable.css';
 import { useTable } from "react-table";
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'; 
  
 
 export const CitaPay = ({handleCloseModal}) => {
@@ -14,6 +14,8 @@ export const CitaPay = ({handleCloseModal}) => {
   const citasRef = useRef();
   const [idCit, setIdCit] = useState('');
   const [estadoPago, setEstadoPago] = useState('');
+  const [precioCita, setPrecioCita] = useState('');
+  const [descuCita, setDescuCita] = useState('');
 
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
@@ -22,6 +24,7 @@ export const CitaPay = ({handleCloseModal}) => {
   const [nombresUsuario, setNombresUsuario] = useState('');
 
   const [tabla, setTabla] = useState(false);
+  const [recarga, setRecarga] = useState(false);
 
   citasRef.current = citas;
 
@@ -74,9 +77,11 @@ export const CitaPay = ({handleCloseModal}) => {
     }
   },[page, pageSize]);
 
-  const obtenerDatosCita = (rowIndex, rowPago) => {
+  const obtenerDatosCita = (rowIndex, rowPago, rowPrecio, rowDescuento) => {
     setIdCit(rowIndex);
     setEstadoPago(rowPago);
+    setPrecioCita(rowPrecio);
+    setDescuCita(rowDescuento);
     
   }
 
@@ -88,7 +93,7 @@ export const CitaPay = ({handleCloseModal}) => {
          
           Swal.fire({
             title: '¿Pagar cita?',
-            text: "Esta acción no se puede revertir!",
+            text: "Esta acción no se puede revertir! "+'Valor a pagar: $'+((100-descuCita)/100)*precioCita,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -104,16 +109,17 @@ export const CitaPay = ({handleCloseModal}) => {
               )
               payCita(idCit);
               
-
               setIdCit('');
               setEstadoPago('');
-
-              retrieveCitas();
-              
+              setPrecioCita('');
+              setDescuCita('');
+              setRecarga(!recarga);
             }else{
               setIdCit('');
               setEstadoPago('');
-              retrieveCitas();
+              setPrecioCita('');
+              setDescuCita('');
+             
             }
 
           })
@@ -129,17 +135,17 @@ export const CitaPay = ({handleCloseModal}) => {
               )
               setIdCit('');
               setEstadoPago('');
+              setPrecioCita('');
+              setDescuCita('');
              
             }
          
-
-      
-
      }catch(error){
        console.log(error);
       
      }
   }
+
 
   useEffect(()=>{
     if(idCit !== '' && idCit !== undefined){
@@ -148,6 +154,13 @@ export const CitaPay = ({handleCloseModal}) => {
       
     }
   }, [idCit]);
+
+  useEffect(()=>{
+    if(numeroDoc !== ''){
+      retrieveCitas();
+    }
+  }, [recarga]);
+
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -178,9 +191,11 @@ export const CitaPay = ({handleCloseModal}) => {
         Cell: (props) => {
           const rowIdx = props.row.original.idCita;
           const rowPago = props.row.original.estadoPago;
+          const rowPrecio = props.row.original.consulta.costo;
+          const rowDescuento = props.row.original.descuentoMotivo.porcentaje;
           return (
             <div>
-              <span onClick={() => obtenerDatosCita(rowIdx, rowPago)}>
+              <span onClick={() => obtenerDatosCita(rowIdx, rowPago, rowPrecio, rowDescuento)}>
                 <i className="fa-solid fa-money-bill-wave"></i>
               </span>
             </div>
