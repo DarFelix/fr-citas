@@ -22,7 +22,7 @@ export const CitaSearch = ({handleCloseModal}) => {
   const [pageSize, setPageSize] = useState(3);
   const pageSizes = [3, 6, 9];
   const [tabla, setTabla] = useState(false);
-  const [form, setForm] = useState(false);
+  const [form, setForm] = useState(true);
 
   citasRef.current = citas;
 
@@ -88,6 +88,7 @@ export const CitaSearch = ({handleCloseModal}) => {
     return params;
   };
 
+ 
 
 
   const retrieveCitas = () => {
@@ -95,13 +96,14 @@ export const CitaSearch = ({handleCloseModal}) => {
     const params = getRequestParams( page, pageSize, sortBy, palabra, fecha, atencion, pago, espec);
 
     console.log(params);
-  
+    
     buscarCitaSpec( params)
       .then((response) => {
         const { citas, totalPages } = response.data;
         setCitas(citas);
-        setCount(totalPages);
-        setTabla(true); 
+        setCount(totalPages); 
+        setForm(false);
+        setTabla(true);
         
       }) 
       .catch((e) => {
@@ -110,12 +112,26 @@ export const CitaSearch = ({handleCloseModal}) => {
       });
   };
 
-  useEffect(()=>{
 
+  useEffect(()=>{
+    if(form !== true && tabla !== false){
     retrieveCitas();
-   
+    }
   },[page, pageSize]);
 
+  const cerrarTabla = () => {
+        setTabla(false);
+        setForm(true);
+        setSortBy('');
+        setPalabra('');
+        setFecha('');
+        setAtencion('');
+        setPago('');
+        setEspec('');
+        setCitas([]);
+  }
+
+  
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -137,12 +153,40 @@ export const CitaSearch = ({handleCloseModal}) => {
         accessor: "consulta.especialidad.nombre",
       },
       {
+        Header: "ID Registro",
+        accessor: "idCita",
+      },
+      {
+        Header: "Nombre Usuario",
+        accessor: "usuario.nombres",
+      },
+      {
+        Header: "Apellidos Usuario",
+        accessor: "usuario.apellidos",
+      },
+      {
         Header: "Nombre Médico",
         accessor: "medico.nombres",
       },
       {
         Header: "Apellidos Médico",
         accessor: "medico.apellidos",
+      },
+      {
+        Header: "Estado atención",
+        accessor: "estadoAtencion",
+      },
+      {
+        Header: "Estado de pago",
+        accessor: "estadoPago",
+      },
+      {
+        Header: "Fecha de creación",
+        accessor: "fechaCreacion",
+      },
+      {
+        Header: "Fecha de actualización",
+        accessor: "fechaActualizacion",
       },
     ],
     []
@@ -173,10 +217,15 @@ export const CitaSearch = ({handleCloseModal}) => {
             <i className="fa-solid fa-xmark style-icon" onClick={handleCloseModal} ></i>
           </div>
           <hr/>
-          <p id="description">Por favor ingresa al menos un parámetro de búsqueda:</p>
+          
         </div>
       </div>
 
+
+    {form === true &&
+    <div>
+      <p id="description">Por favor ingresa al menos un parámetro de búsqueda:</p>
+    
           <div className="account-details">
                                         <div><label>Ordenar por:</label>
                                                             <select className="form-select" 
@@ -192,6 +241,8 @@ export const CitaSearch = ({handleCloseModal}) => {
                                                               </select>
                                       </div> 
         </div>
+
+    
 
         <div className="account-details">
                                      <div><label>Palabra clave:</label>
@@ -249,16 +300,19 @@ export const CitaSearch = ({handleCloseModal}) => {
                                                             <input  
                                                               type="text"
                                                               onChange={(e) => handleInputChange(e)}
-                                                             name="especialidades" 
+                                                             name="espec" 
                                                              id ='inp-form'
                                                              required/>
                                     </div>
         </div>
 
+      
         <div className="container-btn-crear">
                               <button id='btn-crear-cita' onClick={retrieveCitas}>Buscar</button>
         </div>
 
+        </div>
+        }
 
         {
               tabla === true &&
@@ -319,11 +373,16 @@ export const CitaSearch = ({handleCloseModal}) => {
                               })}
                             </tbody>
                           </table>
+
+                          <div className="container-btn-crear">
+                              <button id='btn-crear-cita' onClick={cerrarTabla}>Regresar</button>
+                          </div>
+
                           </div> 
                         </div>
                     </div>
 
-
+                    
               </div>
       }
 
