@@ -27,7 +27,35 @@ const getMedicsByConsulta =(idEspecialidad) => {
     return axiosInstance.get(`usuario/medicosConsulta/${idEspecialidad}`, {headers});
 }
 
+const crearUsuario =(usuario) => {
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    }
+
+    return axiosInstance.post('usuario/crearUsuario', usuario, {headers});
+
+}
+
+const getRoles = () => {
+
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    }
+
+    return axiosInstance.get(`rol`, {headers});
+
+}
+
+
+
+
 export{
-    getUserByDoc, getMedicsByConsulta
+    getUserByDoc, getMedicsByConsulta, crearUsuario, getRoles
  }
   
