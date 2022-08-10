@@ -91,15 +91,16 @@ export const CitaSearch = ({handleCloseModal}) => {
  
 
 
-  const retrieveCitas = () => {
+  const retrieveCitas = async () => {
 
     const params = getRequestParams( page, pageSize, sortBy, palabra, fecha, atencion, pago, espec);
 
     console.log(params);
     
-    buscarCitaSpec( params)
+    await buscarCitaSpec( params)
       .then((response) => {
-        const { citas, totalPages } = response.data;
+        const { citas, totalPages } =  response.data;
+        console.log(response.data);
         setCitas(citas);
         setCount(totalPages); 
         setForm(false);

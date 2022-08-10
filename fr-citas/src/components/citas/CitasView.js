@@ -72,7 +72,7 @@ switch(openModal){
             modal = undefined ;  
 }
 
-  return (
+  return ( 
     <div>
 
     {openModal === vista  ? modal : 
