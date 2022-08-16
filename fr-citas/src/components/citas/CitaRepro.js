@@ -63,7 +63,7 @@ export const CitaRepro = ({handleCloseModal}) => {
    }
 
   } 
-
+ 
   console.log(valoresForm);
   console.log(idMedico);
 

@@ -35,7 +35,7 @@ const crearUsuario =(usuario) => {
         'Content-type': 'application/json'
     }
 
-    return axiosInstance.post('usuario/crearUsuario', usuario, {headers});
+    return axiosInstance.post('usuario', usuario, {headers});
 
 }
 
