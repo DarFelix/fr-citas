@@ -56,7 +56,8 @@ export const UsuarioCreation = ({handleCloseModal}) => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const usuario = {
+
+    const medico = {
       tipoDoc,numeroDoc, nombres, apellidos, fechaNacimiento, telefono,
       correo, pass, 
       rol: {
@@ -66,14 +67,31 @@ export const UsuarioCreation = ({handleCloseModal}) => {
         idEspecialidad: especialidad
       }
     }
-    console.log(usuario);
+
+    const usuario = {
+      tipoDoc,numeroDoc, nombres, apellidos, fechaNacimiento, telefono,
+      correo, pass, 
+      rol: {
+        idRol: rol
+      }
+    }
+    
+    let user;
+
+    if(especialidad !== undefined){
+      user = medico;
+    }else{
+      user = usuario;
+    }
+
+    console.log(user);
     try{
       Swal.fire({
         allowOutsideClick: false,
         text: 'Cargando...'
       });
       Swal.showLoading();
-      await crearUsuario(usuario);
+      await crearUsuario(user);
       Swal.close();
       Swal.fire(
         'Usuario creado con éxito',

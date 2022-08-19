@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import '../../assets/css/StyleModal.css';
 import '../../assets/css/StyleForm.css';
-import {getRoles, getUserByDoc} from '../../services/usuarios/serviciosUsuarios';
+import {getRoles, getUserByDoc, editUser} from '../../services/usuarios/serviciosUsuarios';
 import {getEspecialidades} from '../../services/especialidades/serviciosEspecs';
-
+import Swal from 'sweetalert2';
 
  
 export const UsuarioEdition = ({handleCloseModal}) => {
@@ -11,13 +11,15 @@ export const UsuarioEdition = ({handleCloseModal}) => {
   const [docu, setDocu] = useState('');
   const [primera, setPrimera] = useState(true);
   const [segunda, setSegunda] = useState(false);
+  const [hideSpa, setHideSpa] = useState(false);
   const [usuario, setUsuario] = useState();
   const [roles, setRoles] = useState([]);
+  const [role, setRole] = useState();
   const [especialidades, setEspecialidades] = useState([]);
   const [espec, setEspec] = useState();
   const [valoresForm, setValoresForm] = useState({});
   const {tipoDoc='', numeroDoc='', nombres='', apellidos='', fechaNacimiento= '', telefono='',
-  correo='', rol, especialidad} = valoresForm;
+  correo='', pass='', estadoUsuario='', rol, especialidad} = valoresForm;
  
   const handleInputChange = ({ target })=> {
     const {name, value} = target;
@@ -25,24 +27,48 @@ export const UsuarioEdition = ({handleCloseModal}) => {
       setDocu(value);
     }
     setValoresForm({...valoresForm, [name]: value});
+    if (name === 'rol' && value !== 'MEDIC'){
+      setHideSpa(false);
+      setEspec();
+      setRole(value);
+    }else if (name === 'rol' && value === 'MEDIC'){
+      setHideSpa(true);
+    }else if(name !== 'especialidad'){
+      setHideSpa(false);
+    } 
   } 
 
   const obtenerUsuario = async () => {
     try{
       const {data} = await getUserByDoc(docu);
       setUsuario(data);
-      console.log(usuario);
       setPrimera(false);
       setSegunda(true);
+      const ro = data.rol.idRol;
+      setRole(ro);
 
+      if(data.especialidad !== null){
       const esp = data.especialidad.idEspecialidad;
-      console.log(esp);
       setEspec(esp);
+      setHideSpa(true);
+      }else{
+      setEspec();
+      setHideSpa(false);
+      }
 
     }catch (error){ 
-      console.log(error);
-    }
+        let msj;
+        console.log(error);
+        if(error && error.response && error.response.data && error.response.data.message){
+            msj = error.response.data.message;
+        } else {
+            msj = 'Ocurrio un error, por favor verifique';
+        }
+        Swal.fire('Error', msj ,'error');  
+        }
   }
+
+
 
   useEffect(()=>{   
     if(usuario !== undefined ){
@@ -54,16 +80,19 @@ export const UsuarioEdition = ({handleCloseModal}) => {
       fechaNacimiento: usuario.fechaNacimiento,
       telefono: usuario.telefono,
       correo: usuario.correo,
-      rol: usuario.rol.idRol,
+      pass: usuario.pass,
+      estadoUsuario: usuario.estadoUsuario,
+      rol: role,
       especialidad: espec
    }
    ); 
   }
-}, [usuario]);
+}, [usuario, espec]);
 
   const regresar = () =>{
     setSegunda(false);
     setPrimera(true);
+    
   }
 
 
@@ -92,6 +121,73 @@ export const UsuarioEdition = ({handleCloseModal}) => {
   useEffect(()=>{
     listarEspecs();
   },[])
+
+  const actualiza = async(e) =>{
+    e.preventDefault();
+
+    const medico = {
+      tipoDoc,numeroDoc, nombres, apellidos, fechaNacimiento, telefono,
+      correo, pass, estadoUsuario,
+      rol: {
+        idRol: rol
+      },
+      especialidad: {
+        idEspecialidad: especialidad
+      }
+    }
+
+    const usuario = {
+      tipoDoc,numeroDoc, nombres, apellidos, fechaNacimiento, telefono,
+      correo, pass, estadoUsuario,
+      rol: {
+        idRol: rol
+      }
+    }
+    
+    let user;
+
+    if(especialidad !== undefined){
+      user = medico;
+    }else{
+      user = usuario;
+    }
+
+   
+
+    console.log(user);
+
+    try{
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Cargando...'
+      });
+      Swal.showLoading();
+        await editUser(usuario.numeroDoc, user);
+        
+      Swal.close();
+      Swal.fire(
+        'Información de usuario actualizada',
+        'Datos de '+usuario.nombres+' '+usuario.apellidos+' correctamente actualizados',
+        'success' 
+        );
+    
+    setSegunda(false);
+    setPrimera(true);
+  }catch(error){
+    Swal.close();
+    let msj;
+    console.log(error);
+    if(error && error.response && error.response.data && error.response.data.message){
+        msj = error.response.data.message;
+    } else {
+        msj = 'Ocurrio un error, por favor verifique';
+    }
+    Swal.fire('Error', msj ,'error');  
+    e.target.reset();
+  }
+  }
+  
+
 
   return (
     <div className='modal-style'>
@@ -128,7 +224,7 @@ export const UsuarioEdition = ({handleCloseModal}) => {
 
             {segunda === true && 
                   <div className="main-block">
-                    <form >  
+                    <form onSubmit={(e) => actualiza(e)}>  
                         
                      
                     <fieldset>
@@ -244,6 +340,7 @@ export const UsuarioEdition = ({handleCloseModal}) => {
                                 </div>
                             </div>
 
+                          {hideSpa === true &&
                           
                             <div className="account-details">
                                 <div><label>Especialidad: </label>
@@ -263,7 +360,8 @@ export const UsuarioEdition = ({handleCloseModal}) => {
                                 </div>
                             </div>
 
-
+                          }
+                          
                             <div className="modal-style-btn-horiz">
                               <button id='btn-crear-cita'>Actualizar usuario</button><button id='btn-crear-cita' onClick={regresar}>Regresar</button>
                             </div>

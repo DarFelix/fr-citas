@@ -52,10 +52,23 @@ const getRoles = () => {
 
 }
 
+const editUser = (idUsuario, usuario) => {
+
+    const TOKEN = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `bearer ${TOKEN}`,
+        'Content-type': 'application/json'
+    }
+
+    return axiosInstance.put(`usuario/${idUsuario}`, usuario, {headers});
+    
+}
+
 
 
 
 export{
-    getUserByDoc, getMedicsByConsulta, crearUsuario, getRoles
+    getUserByDoc, getMedicsByConsulta, crearUsuario, getRoles, editUser
  }
   
